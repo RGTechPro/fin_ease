@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fin_ease/screens/financial_Page.dart';
 import 'package:fin_ease/screens/form_page.dart';
+import 'package:fin_ease/screens/setu_web.dart';
+import 'package:fin_ease/services/apis.dart';
 import 'package:fin_ease/services/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -133,19 +135,32 @@ class Auth extends ChangeNotifier {
               .fetchIsPersonalInfo(FirebaseAuth.instance.currentUser!.uid);
           bool? isFinancialInfo = await FirestoreService()
               .fetchIsFinancialInfo(FirebaseAuth.instance.currentUser!.uid);
-          if (isPersonalInfo! && isFinancialInfo!) {
+          print(isPersonalInfo);
+          print(isFinancialInfo);
+          if (!isPersonalInfo! && !isFinancialInfo!) {
+            String url = await fetchConsentUrl();
+
             Navigator.of(context).popUntil((route) => route.isFirst);
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => HomePage()));
-          } else if (!isPersonalInfo) {
-            Navigator.of(context).popUntil((route) => route.isFirst);
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => FinancialPage()));
-          } else if (!isFinancialInfo!) {
-            Navigator.of(context).popUntil((route) => route.isFirst);
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => FormPage()));
-          }
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SetuWEB(
+                          url: url,
+                        )));
+          } 
+          // else if (isPersonalInfo! && isFinancialInfo!) {
+          //   Navigator.of(context).popUntil((route) => route.isFirst);
+          //   Navigator.pushReplacement(
+          //       context, MaterialPageRoute(builder: (context) => HomePage()));
+          // } else if (!isPersonalInfo) {
+          //   Navigator.of(context).popUntil((route) => route.isFirst);
+          //   Navigator.pushReplacement(context,
+          //       MaterialPageRoute(builder: (context) => FinancialPage()));
+          // } else if (!isFinancialInfo!) {
+          //   Navigator.of(context).popUntil((route) => route.isFirst);
+          //   Navigator.pushReplacement(
+          //       context, MaterialPageRoute(builder: (context) => FormPage()));
+          // }
           showSnackBar('Logged In!', context);
         }
       }).catchError((e) => showSnackBar(
@@ -158,5 +173,25 @@ class Auth extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> logout(BuildContext context) async {
+    /// Method to Logout the `FirebaseUser` (`_firebaseUser`)
+    //   final GoogleSignIn googleSignIn = GoogleSignIn();
 
+    try {
+      // signout code
+      await FirebaseAuth.instance.signOut();
+      //   await googleSignIn.signOut();
+      _firebaseUser = null;
+      final snackBar = SnackBar(content: Text('Logged Out!'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } catch (e) {
+      final snackBar = SnackBar(content: Text(e.toString()));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+    // setName('Unknown');
+    // setEmail('Unknown');
+    // mobileNumber = 'Unknown';
+    //  Provider.of<Account>(context, listen: false).logout();
+    notifyListeners();
+  }
 }

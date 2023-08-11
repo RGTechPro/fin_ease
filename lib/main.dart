@@ -1,21 +1,28 @@
 import 'package:fin_ease/providers/auth.dart';
-import 'package:fin_ease/screens/form_page.dart';
-import 'package:fin_ease/screens/home_page.dart';
+
 import 'package:fin_ease/screens/login_page.dart';
+import 'package:fin_ease/screens/setu_web.dart';
+import 'package:fin_ease/services/apis.dart';
 import 'package:fin_ease/services/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 
 Widget? widget;
+String ?url;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+   url = await fetchConsentUrl();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-   widget = await FirestoreService().checkIsInfos();
+  // if (FirebaseAuth.instance.currentUser != null) {
+  //   widget = await FirestoreService().checkIsInfos();
+  // }
   runApp(const MyApp());
 }
 
@@ -34,7 +41,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: (FirebaseAuth.instance.currentUser != null)
-            ? widget
+            ? SetuWEB(url: url!)
             : LoginPage(),
       ),
     );
