@@ -65,7 +65,15 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  assets:
+    - lib/assets/images/bibit.jpg
+    - lib/assets/images/gopay.jpg
+    - lib/assets/images/profile.jpg
+    - lib/assets/images/chip.png
+    - lib/assets/json/saving_target_dummy.json
+    - lib/assets/json/transaction_dummy.json
+    - lib/assets/json/credit_card_dummy.json
+    - lib/assets/json/pocket_dummy.json
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

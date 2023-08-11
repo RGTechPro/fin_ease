@@ -59,7 +59,7 @@ Future<Response> performRiskPrediction(Map<String, dynamic> map) async {
 
   try {
     final response = await dio.post(
-      'https://4f09-117-203-246-41.ngrok-free.app/predict/',
+      'https://7d3c-117-203-246-41.ngrok-free.app/predict/',
       data: jsonEncode(data),
       options: Options(headers: headers),
     );
@@ -92,7 +92,7 @@ Future<String> fetchConsentUrl() async {
         "Detail": {
           "consentStart": "2024-02-14T11:28:06.983Z",
           "consentExpiry": "2025-04-23T05:44:53.822Z",
-          "Customer": {"id": "8968577360@onemoney"},
+          "Customer": {"id": "9084034365@onemoney"},
           "FIDataRange": {
             "from": "2020-04-01T00:00:00Z",
             "to": "2023-01-01T00:00:00Z"
@@ -131,3 +131,27 @@ Future<String> fetchConsentUrl() async {
   }
   return consentUrl;
 }
+
+  Future<void> fetchFinanceData() async {
+      final dio = Dio();
+
+    try {
+      final response = await dio.get('your_api_url_here');
+
+      if (response.statusCode == 200) {
+        final data = response.data['finance']['result'][0]['quotes'];
+
+        // Parse and use the data as needed
+        for (var quote in data) {
+          print('Symbol: ${quote['symbol']}');
+          print('Regular Market Price: ${quote['regularMarketPrice']}');
+          print('Regular Market Change: ${quote['regularMarketChange']}');
+          print('---');
+        }
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }

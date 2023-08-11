@@ -1,4 +1,5 @@
 import 'package:fin_ease/providers/auth.dart';
+import 'package:fin_ease/screens/dashboard.dart';
 
 import 'package:fin_ease/screens/login_page.dart';
 import 'package:fin_ease/screens/setu_web.dart';
@@ -40,9 +41,11 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: (FirebaseAuth.instance.currentUser != null)
+        home: 
+        (FirebaseAuth.instance.currentUser != null)
             ? SetuWEB(url: url!)
             : LoginPage(),
+       // Dashboard()
       ),
     );
   }

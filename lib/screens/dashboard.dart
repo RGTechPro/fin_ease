@@ -53,8 +53,79 @@ class _DashboardState extends State<Dashboard> {
                 profileSection(),
                 const VerticalGap20(),
                 balanceSection(context),
+
                 const VerticalGap10(),
-                paymentSection(context),
+                SizedBox(
+                  height: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        onTap: () {},
+                        splashColor: buttonColor,
+                        highlightColor: buttonColor,
+                        focusColor: buttonColor,
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 56,
+                              height: 56,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(40),
+                                color: primaryColor,
+                              ),
+                              child: Icon(
+                                Icons.money,
+                                color: textColor,
+                              ),
+                            ),
+                            const VerticalGap5(),
+                            Expanded(
+                              child: Text(
+                                'Invest more',
+                                style: poppinsCaption.copyWith(
+                                  color: textColor.withOpacity(.75),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        splashColor: buttonColor,
+                        highlightColor: buttonColor,
+                        focusColor: buttonColor,
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 56,
+                              height: 56,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(40),
+                                color: primaryColor,
+                              ),
+                              child: Icon(
+                                Icons.book,
+                                color: textColor,
+                              ),
+                            ),
+                            const VerticalGap5(),
+                            Expanded(
+                              child: Text(
+                                'Learn more',
+                                style: poppinsCaption.copyWith(
+                                  color: textColor.withOpacity(.75),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                // paymentSection(context),
                 const VerticalGap20(),
                 savingTargetSection(context),
                 const VerticalGap20(),
@@ -98,7 +169,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   const HorizontalGap5(),
                   Text(
-                    'Recent Activities',
+                    'Recent Activities in community',
                     style: poppinsH4.copyWith(
                       color: textColor,
                     ),
@@ -118,7 +189,7 @@ class _DashboardState extends State<Dashboard> {
           const VerticalGap10(),
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: 200,
+            height: 325,
             child: FutureBuilder<List<TransactionModel>>(
               future: Repository().getTransaction(),
               builder: (context, snapshot) {
@@ -206,8 +277,8 @@ class _DashboardState extends State<Dashboard> {
                               children: [
                                 Text(
                                   data[index].status == false
-                                      ? '- \$${data[index].totalMoney}'
-                                      : '+ \$${data[index].totalMoney}',
+                                      ? '- ₹${data[index].totalMoney}'
+                                      : '+ ₹${data[index].totalMoney}',
                                   style: poppinsH3.copyWith(
                                     color: data[index].status == false
                                         ? Colors.red
@@ -336,7 +407,7 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                   const VerticalGap5(),
                                   Text(
-                                    '\$$savingValue',
+                                    '₹$savingValue',
                                     style: poppinsBody1.copyWith(
                                       fontSize: 28,
                                       color: buttonColor,
@@ -344,7 +415,7 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                   const VerticalGap5(),
                                   Text(
-                                    '\$$targetValue left in ${data[index].monthDuration} months',
+                                    '₹$targetValue left in ${data[index].monthDuration} months',
                                     style: poppinsBody2.copyWith(
                                       color: textColor.withOpacity(.5),
                                     ),
@@ -408,59 +479,46 @@ class _DashboardState extends State<Dashboard> {
       ),
       skeleton: const SmallSkeleton(),
       child: Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: secondaryColor,
-        ),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 8,
-        ),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: secondaryColor,
           ),
-          itemCount: 4,
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {},
-              splashColor: buttonColor,
-              highlightColor: buttonColor,
-              focusColor: buttonColor,
-              child: Column(
-                children: [
-                  Container(
-                    width: 56,
-                    height: 56,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(40),
-                      color: primaryColor,
-                    ),
-                    child: Icon(
-                      widgetIcons[index],
-                      color: textColor,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
+          child: InkWell(
+            onTap: () {},
+            splashColor: buttonColor,
+            highlightColor: buttonColor,
+            focusColor: buttonColor,
+            child: Column(
+              children: [
+                Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40),
+                    color: primaryColor,
+                  ),
+                  child: Icon(
+                    Icons.money,
+                    color: textColor,
+                  ),
+                ),
+                const VerticalGap5(),
+                Expanded(
+                  child: Text(
+                    'Invest more',
+                    style: poppinsCaption.copyWith(
+                      color: textColor.withOpacity(.75),
                     ),
                   ),
-                  const VerticalGap5(),
-                  Expanded(
-                    child: Text(
-                      widgetTitles[index],
-                      style: poppinsCaption.copyWith(
-                        color: textColor.withOpacity(.75),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
-        ),
-      ),
+                ),
+              ],
+            ),
+          )),
     );
   }
 
@@ -518,7 +576,7 @@ class _DashboardState extends State<Dashboard> {
             Row(
               children: [
                 Text(
-                  _isHidden ? '\$550,752,210' : '---------',
+                  _isHidden ? '₹550,752' : '---------',
                   style: poppinsH1.copyWith(
                     color: buttonColor,
                     fontWeight: FontWeight.w600,
@@ -560,13 +618,13 @@ class _DashboardState extends State<Dashboard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Investation (0,00%)',
+                        'Investment',
                         style: poppinsH5.copyWith(
                           color: textColor.withOpacity(.75),
                         ),
                       ),
                       Text(
-                        'Rp 0',
+                        '₹332000',
                         style: poppinsH5.copyWith(
                           color: textColor.withOpacity(.75),
                         ),
@@ -593,7 +651,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                           const HorizontalGap5(),
                           Text(
-                            'Reksa Dana Bibit',
+                            'Stocks',
                             style: poppinsBody2.copyWith(
                               color: textColor.withOpacity(.75),
                             ),
@@ -601,7 +659,109 @@ class _DashboardState extends State<Dashboard> {
                         ],
                       ),
                       Text(
-                        'Rp 0',
+                        '₹3000',
+                        style: poppinsBody2.copyWith(
+                          color: textColor.withOpacity(.75),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              color: Colors.white,
+                              image: const DecorationImage(
+                                image: AssetImage(imgBibit),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const HorizontalGap5(),
+                          Text(
+                            'Mutual Funds',
+                            style: poppinsBody2.copyWith(
+                              color: textColor.withOpacity(.75),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '₹8000',
+                        style: poppinsBody2.copyWith(
+                          color: textColor.withOpacity(.75),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              color: Colors.white,
+                              image: const DecorationImage(
+                                image: AssetImage(imgBibit),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const HorizontalGap5(),
+                          Text(
+                            'Bonds',
+                            style: poppinsBody2.copyWith(
+                              color: textColor.withOpacity(.75),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '₹10000',
+                        style: poppinsBody2.copyWith(
+                          color: textColor.withOpacity(.75),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              color: Colors.white,
+                              image: const DecorationImage(
+                                image: AssetImage(imgBibit),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const HorizontalGap5(),
+                          Text(
+                            'Gold',
+                            style: poppinsBody2.copyWith(
+                              color: textColor.withOpacity(.75),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '₹20000',
                         style: poppinsBody2.copyWith(
                           color: textColor.withOpacity(.75),
                         ),
@@ -613,20 +773,19 @@ class _DashboardState extends State<Dashboard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Cash Money (100,00%)',
+                        'Cash Money',
                         style: poppinsH5.copyWith(
                           color: textColor.withOpacity(.75),
                         ),
                       ),
                       Text(
-                        '\$550,752,210',
+                        '₹218752',
                         style: poppinsH5.copyWith(
                           color: textColor.withOpacity(.75),
                         ),
                       ),
                     ],
                   ),
-                  const VerticalGap5(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -639,14 +798,14 @@ class _DashboardState extends State<Dashboard> {
                               borderRadius: BorderRadius.circular(40),
                               color: Colors.white,
                               image: const DecorationImage(
-                                image: AssetImage(imgProfile),
+                                image: AssetImage(imgBibit),
                                 fit: BoxFit.cover,
                               ),
                             ),
                           ),
                           const HorizontalGap5(),
                           Text(
-                            'Saving Pocket',
+                            'Cash',
                             style: poppinsBody2.copyWith(
                               color: textColor.withOpacity(.75),
                             ),
@@ -654,7 +813,7 @@ class _DashboardState extends State<Dashboard> {
                         ],
                       ),
                       Text(
-                        'Rp 0',
+                        '₹218752',
                         style: poppinsBody2.copyWith(
                           color: textColor.withOpacity(.75),
                         ),
@@ -662,75 +821,6 @@ class _DashboardState extends State<Dashboard> {
                     ],
                   ),
                   const VerticalGap5(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40),
-                              color: Colors.white,
-                              image: const DecorationImage(
-                                image: AssetImage(imgProfile),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const HorizontalGap5(),
-                          Text(
-                            'Payment Pocket',
-                            style: poppinsBody2.copyWith(
-                              color: textColor.withOpacity(.75),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '\$550,752,210',
-                        style: poppinsBody2.copyWith(
-                          color: textColor.withOpacity(.75),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const VerticalGap5(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40),
-                              color: Colors.white,
-                              image: const DecorationImage(
-                                image: AssetImage(imgGopay),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const HorizontalGap5(),
-                          Text(
-                            'Gopay',
-                            style: poppinsBody2.copyWith(
-                              color: textColor.withOpacity(.75),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        'Rp 0',
-                        style: poppinsBody2.copyWith(
-                          color: textColor.withOpacity(.75),
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
@@ -769,7 +859,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
               Text(
-                'Listyo Adi Pamungkas🎆',
+                'Rishabh',
                 style: poppinsBody1.copyWith(
                   color: textColor,
                   fontWeight: FontWeight.w600,
