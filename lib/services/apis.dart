@@ -59,11 +59,11 @@ Future<Response> performRiskPrediction(Map<String, dynamic> map) async {
 
   try {
     final response = await dio.post(
-      'https://9f24-117-203-246-41.ngrok-free.app/predict/',
+      'https://4f09-117-203-246-41.ngrok-free.app/predict/',
       data: jsonEncode(data),
       options: Options(headers: headers),
     );
-
+    print('ancd');
     if (response.statusCode == 200) {
       responses = response;
       print(response.data);
@@ -78,7 +78,7 @@ Future<Response> performRiskPrediction(Map<String, dynamic> map) async {
 
 Future<String> fetchConsentUrl() async {
   String consentUrl = '';
-    final dio = Dio();
+  final dio = Dio();
   try {
     final response = await dio.post(
       'https://fiu-uat.setu.co/consents',
@@ -89,69 +89,40 @@ Future<String> fetchConsentUrl() async {
         },
       ),
       data: {
-       
- 	"Detail": {
- 	 	"consentStart": "2024-02-14T11:28:06.983Z",
- 	 	"consentExpiry": "2025-04-23T05:44:53.822Z",
- 	 	"Customer": {
- 	 	 	"id": "8968577360@onemoney"
- 	 	},
- 	 	"FIDataRange": {
- 	 	 	"from": "2020-04-01T00:00:00Z",
- 	 	 	"to": "2023-01-01T00:00:00Z"
- 	 	},
- 	 	"consentMode": "STORE",
- 	 	"consentTypes": [
- 	 	 	"TRANSACTIONS",
- 	 	 	"PROFILE",
- 	 	 	"SUMMARY"
- 	 	],
- 	 	"fetchType": "PERIODIC",
- 	 	"Frequency": {
- 	 	 	"value": 30,
- 	 	 	"unit": "MONTH"
- 	 	},
- 	 	"DataFilter": [
- 	 	 	{
- 	 	 	 	"type": "TRANSACTIONAMOUNT",
- 	 	 	 	"value": "5000",
- 	 	 	 	"operator": ">="
- 	 	 	}
- 	 	],
- 	 	"DataLife": {
- 	 	 	"value": 1,
- 	 	 	"unit": "MONTH"
- 	 	},
- 	 	"DataConsumer": {
- 	 	 	"id": "setu-fiu-id"
- 	 	},
- 	 	"Purpose": {
- 	 	 	"Category": {
- 	 	 	 	"type": "string"
- 	 	 	},
- 	 	 	"code": "101",
- 	 	 	"text": "Loan underwriting",
- 	 	 	"refUri": "https://api.rebit.org.in/aa/purpose/101.xml"
- 	 	},
- 	 	"fiTypes": [
- 	 	 	"DEPOSIT",
- 	 	 	"EQUITIES"
- 	 	]
- 	},
- 	"redirectUrl": "https://setu.co",
- 	"context": [
- 	 	{
- 	 	 	"key": "accounttype",
- 	 	 	"value": "SAVINGS"
- 	 	}
- 	]
-
+        "Detail": {
+          "consentStart": "2024-02-14T11:28:06.983Z",
+          "consentExpiry": "2025-04-23T05:44:53.822Z",
+          "Customer": {"id": "8968577360@onemoney"},
+          "FIDataRange": {
+            "from": "2020-04-01T00:00:00Z",
+            "to": "2023-01-01T00:00:00Z"
+          },
+          "consentMode": "STORE",
+          "consentTypes": ["TRANSACTIONS", "PROFILE", "SUMMARY"],
+          "fetchType": "PERIODIC",
+          "Frequency": {"value": 30, "unit": "MONTH"},
+          "DataFilter": [
+            {"type": "TRANSACTIONAMOUNT", "value": "5000", "operator": ">="}
+          ],
+          "DataLife": {"value": 1, "unit": "MONTH"},
+          "DataConsumer": {"id": "setu-fiu-id"},
+          "Purpose": {
+            "Category": {"type": "string"},
+            "code": "101",
+            "text": "Loan underwriting",
+            "refUri": "https://api.rebit.org.in/aa/purpose/101.xml"
+          },
+          "fiTypes": ["DEPOSIT", "EQUITIES"]
+        },
+        "redirectUrl": "https://setu.co",
+        "context": [
+          {"key": "accounttype", "value": "SAVINGS"}
+        ]
       },
     );
 
     if (response.statusCode == 201) {
       consentUrl = response.data['url'];
-      
     } else {
       print('Request failed with status: ${response.statusCode}');
     }

@@ -294,7 +294,7 @@ class _FinancialPageState extends State<FinancialPage> {
                             ),
                           ),
                           child: const Text(
-                            'Next',
+                            'Predict risk',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
