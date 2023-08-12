@@ -132,26 +132,26 @@ Future<String> fetchConsentUrl() async {
   return consentUrl;
 }
 
-  Future<void> fetchFinanceData() async {
-      final dio = Dio();
+Future<Map> fetchFinanceData() async {
+  final dio = Dio();
+  var data;
+  final String apiKey = '4d16c1d826mshdae427337211a39p181c3djsn253015b2d479';
 
-    try {
-      final response = await dio.get('your_api_url_here');
+  dio.options.headers['X-RapidAPI-Key'] = apiKey;
+  dio.options.headers['X-RapidAPI-Host'] =
+      'apidojo-yahoo-finance-v1.p.rapidapi.com';
 
-      if (response.statusCode == 200) {
-        final data = response.data['finance']['result'][0]['quotes'];
-
-        // Parse and use the data as needed
-        for (var quote in data) {
-          print('Symbol: ${quote['symbol']}');
-          print('Regular Market Price: ${quote['regularMarketPrice']}');
-          print('Regular Market Change: ${quote['regularMarketChange']}');
-          print('---');
-        }
-      } else {
-        print('Request failed with status: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error: $e');
-    }
+  try {
+    final response = await dio.get(
+      'https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-recommendations',
+      queryParameters: {
+        'symbol': 'INTC',
+      },
+    );
+    data = response.data;
+    print(response.data);
+  } catch (error) {
+    print(error);
   }
+  return data;
+}

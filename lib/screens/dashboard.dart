@@ -1,3 +1,5 @@
+import 'package:fin_ease/screens/learn_more.dart';
+import 'package:fin_ease/services/apis.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletons/skeletons.dart';
 import '../common/gap.dart';
@@ -22,7 +24,7 @@ class _DashboardState extends State<Dashboard> {
   bool _isLoad = true;
   bool _isHidden = true;
   bool _isMore = true;
-
+  bool isLoading = false;
   void isLoadingSuccess() {
     Future.delayed(const Duration(seconds: 5), () {
       setState(() {
@@ -91,37 +93,50 @@ class _DashboardState extends State<Dashboard> {
                           ],
                         ),
                       ),
-                      InkWell(
-                        onTap: () {},
-                        splashColor: buttonColor,
-                        highlightColor: buttonColor,
-                        focusColor: buttonColor,
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 56,
-                              height: 56,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40),
-                                color: primaryColor,
+                      !isLoading
+                          ? InkWell(
+                              onTap: () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                var stockData = await fetchFinanceData();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: ((context) => FinanceDataPage(
+                                            apiResponse: stockData))));
+                                isLoading = false;
+                              },
+                              splashColor: buttonColor,
+                              highlightColor: buttonColor,
+                              focusColor: buttonColor,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: 56,
+                                    height: 56,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(40),
+                                      color: primaryColor,
+                                    ),
+                                    child: Icon(
+                                      Icons.book,
+                                      color: textColor,
+                                    ),
+                                  ),
+                                  const VerticalGap5(),
+                                  Expanded(
+                                    child: Text(
+                                      'Learn more',
+                                      style: poppinsCaption.copyWith(
+                                        color: textColor.withOpacity(.75),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              child: Icon(
-                                Icons.book,
-                                color: textColor,
-                              ),
-                            ),
-                            const VerticalGap5(),
-                            Expanded(
-                              child: Text(
-                                'Learn more',
-                                style: poppinsCaption.copyWith(
-                                  color: textColor.withOpacity(.75),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                            )
+                          : CircularProgressIndicator()
                     ],
                   ),
                 ),
